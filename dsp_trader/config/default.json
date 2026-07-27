@@ -1,0 +1,47 @@
+{
+  "backtest": {
+    "csv_path": "data/sample/spy_ticks.csv",
+    "bar_duration_sec": 60,
+    "initial_capital": 100000.0,
+    "verbose": true
+  },
+  "dsp": {
+    "kalman": {
+      "Q_price": 0.001,
+      "Q_velocity": 0.0001,
+      "R": 0.01,
+      "dt": 1.0
+    },
+    "iir": {
+      "type": "ema_cascade",
+      "alpha": 0.1,
+      "stages": 2
+    },
+    "lms": {
+      "taps": 8,
+      "mu": 0.01,
+      "leak": 0.0
+    },
+    "spectral": {
+      "window_size": 256,
+      "apply_hanning": true
+    }
+  },
+  "alpha": {
+    "threshold_high": 0.3,
+    "threshold_low": -0.3,
+    "kalman_weight": 0.5,
+    "filter_weight": 0.3,
+    "adaptive_weight": 0.2
+  },
+  "risk": {
+    "max_position_usd": 10000.0,
+    "max_drawdown_pct": 0.05,
+    "max_daily_loss_usd": 500.0,
+    "slippage_bps": 5.0
+  },
+  "ipc": {
+    "zmq_endpoint": "tcp://localhost:5555",
+    "param_update_interval_sec": 300
+  }
+}
