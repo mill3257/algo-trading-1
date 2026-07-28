@@ -10,12 +10,11 @@
 #include <cstdio>
 #include <cstring>
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Pipeline wiring
 //
 // Data flow per bar:
-//   OHLCVBar → AlphaGenerator (DSP pipeline inside) → RegimeDetector
-//            → RiskManager → PaperTrader → fill recorded in BacktestHarness
+//   OHLCVBar --> AlphaGenerator (DSP pipeline inside) --> RegimeDetector
+//            --> RiskManager --> PaperTrader --> fill recorded in BacktestHarness
 //
 // Latency is measured end-to-end across the pipeline stages.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -46,7 +45,7 @@ int main(int argc, char* argv[]) {
     // dsp_trader::ipc::ZMQParamSubscriber zmq_sub(param_ch);
     // zmq_sub.start();
 
-    // ── Backtest harness ──────────────────────────────────────────────────
+    //backtest harness
     dsp_trader::core::BacktestHarness::Config bt_cfg;
     bt_cfg.csv_path        = csv_path;
     bt_cfg.bar_duration_ns = 60'000'000'000LL; // 1-minute bars
@@ -55,7 +54,7 @@ int main(int argc, char* argv[]) {
 
     dsp_trader::core::BacktestHarness harness(bt_cfg);
 
-    // ── Pipeline callback (runs once per completed OHLCV bar) ─────────────
+    //pipeline callback
     harness.set_pipeline([&](const dsp_trader::core::OHLCVBar& bar) {
         using S = dsp_trader::core::LatencyTracker::Stage;
         latency.reset();

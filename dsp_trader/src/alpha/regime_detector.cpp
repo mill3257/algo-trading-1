@@ -10,9 +10,9 @@ Regime RegimeDetector::update(const dsp::SpectralAnalyzer::SpectralFeatures& f) 
     ++bars_seen_;
     if (bars_seen_ < cfg_.min_bars) return current_;
     // TODO: use actual spectral features once SpectralAnalyzer is implemented
-    if      (f.spectral_entropy < cfg_.entropy_low)  current_ = Regime::Trending;
+    if (f.spectral_entropy < cfg_.entropy_low)  current_ = Regime::Trending;
     else if (f.spectral_entropy > cfg_.entropy_high) current_ = Regime::Noisy;
-    else                                             current_ = Regime::MeanReverting;
+    else current_ = Regime::MeanReverting;
     return current_;
 }
 

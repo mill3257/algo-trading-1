@@ -28,8 +28,7 @@ int main() {
     bar.volume = 1000.0;
     bar.tick_count = 100;
 
-    // Drive one step through the alpha generator
-    // (will return a zeroed AlphaSignal until DSP logic is implemented)
+    //drive one step through alpha generator
     auto sig = alpha.on_bar(bar, regime.current_regime());
     (void)sig;
 

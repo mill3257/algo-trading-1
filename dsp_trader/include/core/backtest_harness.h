@@ -15,11 +15,11 @@ struct BacktestResult {
     double avg_pipeline_ns;     // mean tick-to-order latency
 };
 
-/// Drives the full pipeline from a CSV file.
-/// Wiring: CSVLoader → OHLCVAggregator → [pipeline_cb] → fill recording
-///
-/// The pipeline_cb is where you plug in DSP → Alpha → Risk → Execution.
-/// record_fill() is called by the paper trader on every simulated fill.
+// Drives the full pipeline from a CSV file.
+// Wiring: CSVLoader → OHLCVAggregator → [pipeline_cb] → fill recording
+//
+// The pipeline_cb is where you plug in DSP → Alpha → Risk → Execution.
+// record_fill() is called by the paper trader on every simulated fill.
 class BacktestHarness {
 public:
     struct Config {
