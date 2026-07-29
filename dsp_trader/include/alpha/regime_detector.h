@@ -4,7 +4,7 @@
 
 namespace dsp_trader::alpha {
 
-// Classifies the current market regime from spectral features.
+// Classifies the current market regime from spectral features
 // Phase 1-3: rule-based threshold on spectral_entropy
 //   entropy < low_thresh = Trending
 //   entropy > high_thresh = Noisy
@@ -43,4 +43,4 @@ private:
     int    bars_seen_{0};
 };
 
-} // namespace dsp_trader::alpha
+} 
