@@ -50,7 +50,7 @@ class Regime(str, Enum):
     def is_sideways(self) -> bool: return self in (self.SIDEWAYS_QUIET, self.SIDEWAYS_VOLATILE)
     @property
     def is_volatile(self) -> bool: return self in (self.BULLISH_VOLATILE, self.BEARISH_VOLATILE, self.SIDEWAYS_VOLATILE)
-    @property(self)
+    @property
     def is_quiet(self) -> bool: return not self.is_volatile
 
 def lee_ready_ofi(prices, bids, asks, sizes) ->float:
@@ -197,7 +197,7 @@ def extract_features(ohlcv_df, tick_df = None) -> dict:
 
     #true obi, only available with level 2 data
     obi: Optional[float] = None
-    if tick_df is not None and "bid_size" in tick_df.columns and "ask_size" i tick_df.columns:
+    if tick_df is not None and "bid_size" in tick_df.columns and "ask_size" in tick_df.columns:
         total_bid = tick_df["bid_size"].sum()
         total_ask = tick_df["ask_size"].sum()
         denom = total_ask + total_ask
