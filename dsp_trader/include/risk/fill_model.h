@@ -14,7 +14,7 @@ namespace dsp_trader::risk {
 class FillModel {
 public:
     struct Config {
-        double slippage_bps    = 5.0;   // constant slippage per trade
+        double slippage_bps = 5.0;   // constant slippage per trade
         double commission_flat = 0.0;   // flat commission per order
     };
 

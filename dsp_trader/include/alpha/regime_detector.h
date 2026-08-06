@@ -31,7 +31,7 @@ Phase 4: rule-based path serves as a fallback when the ML service (from ZMQ) is 
 
 TODO:
     -update(features, kalman_state): classify direction from velocity
-    -volatility from psectral_entropy, return combined regime
+    -volatility from spectral_entropy, return combined regime
 */
 class RegimeDetector {
 public:

@@ -74,7 +74,7 @@ TODO:
 - on_bar(): run DSP pipeline, accumulate OFI, combine, apply hysteresis
 - combine_signals(): 6-way regime-conditional weighted sum
 - apply_hysteresis(): Schmitt trigger logic
-- accumulate_ofi() : per-tick Lee-Ready sign, summed over bar, normalized to [-1, 1]
+- accumulate_ofi(): per-tick Lee-Ready sign, summed over bar, normalized to [-1, 1]
 */
 class AlphaGenerator {
 public:

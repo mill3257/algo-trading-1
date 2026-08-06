@@ -8,7 +8,7 @@
 namespace dsp_trader::ipc {
 
 /*
-Parameter bundle pushed by the Python ML service every N minutes.
+Parameter bundle pushed by the Python ML service every 5 minutes.
 regime is the alpha::Regime enum (6 possible values)
 python service serialises it as a string and
 zmq subscriber thread maps it back to the C++ enum before calling write()

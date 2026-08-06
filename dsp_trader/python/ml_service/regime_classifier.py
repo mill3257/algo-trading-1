@@ -1,10 +1,17 @@
 """
 Regime Classifier
-Inputs:  spectral features extracted from a window of OHLCV bars
-Outputs: regime label — one of {trending, mean_reverting, noisy}
+Inputs: spectral and microstructure features from a window of OHLCV bars
+Outputs: regime label, same 6 as in C++ but named different, ex: bullish_quiet
 
-Phase 3: rule-based baseline on spectral entropy
-Phase 4: HMM or gradient-boosted tree trained on labeled windows
+Phase 3: rule-based baseline using kalman vel and spectral entropy thresholds
+Phase 4: HMM or gradient-boosted tree on full feature set
+
+OFI: true obi requires bid/ask size data not available in the current csv method
+We implement Lee-Ready trade signing using bid/ask prices
+    ofi_bar = sum(signed_volume) / total volume --> [-1, 1]
+
+    this is a well-established alternative used in academic market microstructure literature
+    it is computable from existing Tick struct in C++ without adding bid size or ask size columns
 
 TODO (you implement):
     - extract_features(ohlcv_df) → feature dict
@@ -21,12 +28,28 @@ TODO (you implement):
 """
 
 from enum import Enum
+from typing import Optional
+import math
 
 
 class Regime(str, Enum):
-    TRENDING       = "trending"
-    MEAN_REVERTING = "mean_reverting"
-    NOISY          = "noisy"
+    BULLISH_QUIET = "bullish_quiet"
+    BULLISH_VOLATILE = "bullish_volatile"
+    BEARISH_QUIET = "bearish_quiet"
+    BEARISH_VOLATILE = "bearish_volatile"
+    SIDEWAYS_QUIET = "sideways_quiet"
+    SIDEWAYS_VOLATILE = "sideways_volatile"
+
+    @property
+    def is_bullish(self) -> bool: return self in (self.BULLISH_QUIET, self.BULLISH_VOLATILE)
+    @property
+    def is_bearish(self) -> bool: return self in (self.BEARISH_QUIET, self.BEARISH_VOLATILE)
+    @property
+    def is_sideways(self) -> bool: return self in (self.SIDEWAYS_QUIET, self.SIDEWAYS_VOLATILE)
+    @property
+    def is_volatile(self) -> bool: return self in (self.BULLISH_VOLATILE, self.BEARISH_VOLATILE, self.SIDEWAYS_VOLATILE)
+    @property(self)
+    def is_quiet(self) -> bool: return not self.is_volatile
 
 
 def extract_features(ohlcv_df) -> dict:
