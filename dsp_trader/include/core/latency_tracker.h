@@ -6,9 +6,9 @@
 
 namespace dsp_trader::core {
 
-/// Nanosecond-resolution pipeline stage timer.
-/// Call mark() at each stage boundary; call report() to print deltas.
-/// In production (NDEBUG), mark() compiles to a single rdtsc-class read.
+// Nanosecond-resolution pipeline stage timer
+//Call mark() at each stage boundary; call report() to print deltas.
+//In production (NDEBUG), mark() compiles to a single rdtsc-class read.
 class LatencyTracker {
 public:
     enum class Stage : int {
@@ -22,10 +22,10 @@ public:
         kCount
     };
 
-    void    mark(Stage s) noexcept;
+    void mark(Stage s) noexcept;
     int64_t delta_ns(Stage from, Stage to) const noexcept;
-    void    report() const;
-    void    reset()  noexcept;
+    void report() const;
+    void reset()  noexcept;
 
 private:
     static constexpr int N = static_cast<int>(Stage::kCount);
@@ -34,4 +34,4 @@ private:
 
 constexpr std::string_view stage_name(LatencyTracker::Stage s);
 
-} // namespace dsp_trader::core
+}

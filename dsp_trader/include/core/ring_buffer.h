@@ -6,18 +6,18 @@
 
 namespace dsp_trader::core {
 
-/// Single-producer, single-consumer lock-free ring buffer.
-///
-/// Design:
-///   - Power-of-two capacity → index masking instead of modulo
-///   - head_ and tail_ on separate cache lines → no false sharing
-///   - Acquire/release ordering at the producer/consumer boundary only
-///   - T must be trivially copyable (Tick qualifies)
-///
-/// TODO (you implement):
-///   - push(const T&)  : write item, advance head, return false if full
-///   - pop()           : read item, advance tail, return nullopt if empty
-///   - size() / empty(): snapshot queries (relaxed loads OK here)
+//Single-producer, single-consumer lock-free ring buffer.
+
+//Design:
+//Power-of-two capacity --> index masking instead of modulo
+//head_ and tail_ on separate cache lines = no false sharing
+//Acquire/release ordering at the producer/consumer boundary only
+//T must be trivially copyable (Tick qualifies)
+
+//TODO:
+//push(const T&): write item, advance head, return false if full
+//pop(): read item, advance tail, return nullopt if empty
+//size() / empty(): snapshot queries
 template <typename T, std::size_t Capacity>
 class RingBuffer {
     static_assert((Capacity & (Capacity - 1)) == 0, "Capacity must be power of two");
@@ -28,10 +28,10 @@ class RingBuffer {
 public:
     RingBuffer() = default;
 
-    // TODO: implement — producer thread only
+    // TODO: implement, producer thread only
     bool push(const T& item) noexcept;
 
-    // TODO: implement — consumer thread only
+    // TODO: implement, consumer thread only
     std::optional<T> pop() noexcept;
 
     bool empty() const noexcept {
@@ -51,4 +51,4 @@ private:
     alignas(64) std::array<T, Capacity>  data_{};
 };
 
-} // namespace dsp_trader::core
+} 
