@@ -2,18 +2,18 @@
 
 namespace dsp_trader::dsp {
 
-// ── Factories ─────────────────────────────────────────────────────────────────
+//factories
 // TODO: implement bilinear-transform designs
 BiquadCoeffs BiquadCoeffs::lowpass_butterworth(double /*wc*/)  { return {}; }
 BiquadCoeffs BiquadCoeffs::highpass_butterworth(double /*wc*/) { return {}; }
 BiquadCoeffs BiquadCoeffs::ema(double /*alpha*/)               { return {}; }
 
-// ── BiquadFilter ──────────────────────────────────────────────────────────────
+//biquad filter
 BiquadFilter::BiquadFilter(const BiquadCoeffs& c) : c_(c) {}
 
 double BiquadFilter::process(double /*x*/) noexcept {
-    // TODO: Direct Form II transposed update
-    // y  = b0*x + w1_
+    // TODO: direct form 2 transposed update
+    // y = b0*x + w1_
     // w1 = b1*x - a1*y + w2_
     // w2 = b2*x - a2*y
     // return y

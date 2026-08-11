@@ -1,13 +1,12 @@
 """
 ML Parameter Service
 Runs on the cold path, publishes updated Kalman Q/R and regime labels
-to the C++ core over ZMQ every N minutes.
+to the C++ core over ZMQ every 5 minutes.
 
 Usage:
     python -m ml_service.main --interval 300 --endpoint tcp://*:5555
 
-Dependencies:
-    pip install pyzmq numpy scikit-learn hmmlearn
+Dependencies: pyzmq numpy scikit-learn hmmlearn (library for hidden markov models)
 """
 
 import argparse
@@ -15,7 +14,7 @@ import json
 import time
 import logging
 
-# import zmq           # uncomment in Phase 4
+# import zmq # uncomment in Phase 4
 # import numpy as np
 # from .regime_classifier import RegimeClassifier
 # from .kalman_em import KalmanEMEstimator
@@ -55,7 +54,7 @@ def run(interval_sec: int, endpoint: str) -> None:
         # features = extract_spectral_features(ohlcv)
 
         # TODO: classify regime
-        # regime = classifier.predict(features)  # "trending" | "mean_reverting" | "noisy"
+        # regime = classifier.predict(features)  # {"bullish", "bearish", "sideways"} + '_' + {"quiet", "volatile"}
 
         # TODO: run EM to update Kalman Q/R for current regime
         # q_price, q_vel, r = estimator.fit(ohlcv["close"].values)

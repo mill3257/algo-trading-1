@@ -21,8 +21,8 @@ BacktestResult BacktestHarness::run() {
     OHLCVAggregator agg(cfg_.bar_duration_ns, [this](const OHLCVBar& bar) {
         // Mark-to-market equity before running the pipeline
         double equity = cash_ + position_ * bar.close;
-        peak_equity_  = std::max(peak_equity_, equity);
-        double dd     = (peak_equity_ - equity) / peak_equity_;
+        peak_equity_ = std::max(peak_equity_, equity);
+        double dd = (peak_equity_ - equity) / peak_equity_;
         max_drawdown_ = std::max(max_drawdown_, dd);
         equity_curve_.push_back(equity);
 
@@ -50,8 +50,7 @@ BacktestResult BacktestHarness::run() {
         std::vector<double> rets;
         rets.reserve(equity_curve_.size() - 1);
         for (std::size_t i = 1; i < equity_curve_.size(); ++i)
-            rets.push_back((equity_curve_[i] - equity_curve_[i-1])
-                         / equity_curve_[i-1]);
+            rets.push_back((equity_curve_[i] - equity_curve_[i-1]) / equity_curve_[i-1]);
 
         double mean = std::accumulate(rets.begin(), rets.end(), 0.0) / rets.size();
         double var  = 0.0;
@@ -59,7 +58,7 @@ BacktestResult BacktestHarness::run() {
         var /= rets.size();
         double sigma = std::sqrt(var);
 
-        // Annualise assuming 252 trading days × bars_per_day
+        // Annualize assuming 252 trading days × bars_per_day
         // Placeholder: assume 1-minute bars, 390 bars/day
         double ann_factor = std::sqrt(252.0 * 390.0);
         r.annualized_vol = sigma * ann_factor;

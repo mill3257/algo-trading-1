@@ -21,7 +21,7 @@ void SpectralAnalyzer::push(double price) {
 std::optional<SpectralAnalyzer::SpectralFeatures> SpectralAnalyzer::compute() const {
     if (!window_full()) return std::nullopt;
     std::vector<double> psd;
-    compute_dft(psd);   // TODO: swap for FFTW3 in Phase 2
+    compute_dft(psd); // TODO: swap for FFTW3 in Phase 2
     double entropy = shannon_entropy(psd);
     return SpectralFeatures{ 0.0, 0.0, entropy, 0.0, psd };
 }
@@ -29,9 +29,9 @@ std::optional<SpectralAnalyzer::SpectralFeatures> SpectralAnalyzer::compute() co
 void SpectralAnalyzer::compute_dft(std::vector<double>& /*psd_out*/) const {
     // TODO: naive O(N^2) DFT for now
     // for k in 0..N/2:
-    //   re = sum(w[n] * buf[n] * cos(2π*k*n/N))
-    //   im = sum(w[n] * buf[n] * sin(2π*k*n/N))
-    //   psd[k] = (re^2 + im^2) / N^2
+    // re = sum(w[n] * buf[n] * cos(2π*k*n/N))
+    // im = sum(w[n] * buf[n] * sin(2π*k*n/N))
+    // psd[k] = (re^2 + im^2) / N^2
 }
 
 double SpectralAnalyzer::shannon_entropy(const std::vector<double>& /*psd*/) const {

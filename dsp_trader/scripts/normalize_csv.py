@@ -52,7 +52,7 @@ def generate_sample_csv(output_path: str, symbol: str = "SPY", n_ticks: int = 10
             ret = random.gauss(0, 0.0002)
             price *= math.exp(ret)
             spread = price * 0.0001
-            size   = random.randint(1, 500)
+            size = random.randint(1, 500)
             writer.writerow([
                 ts_ns,
                 f"{price:.4f}",
@@ -68,10 +68,10 @@ def generate_sample_csv(output_path: str, symbol: str = "SPY", n_ticks: int = 10
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input",   help="Input CSV from broker")
-    parser.add_argument("--output",  required=True, help="Output normalized CSV")
-    parser.add_argument("--symbol",  default="SPY")
-    parser.add_argument("--source",  choices=["alpaca", "polygon", "sample"], default="sample")
+    parser.add_argument("--input", help="Input CSV from broker")
+    parser.add_argument("--output", required=True, help="Output normalized CSV")
+    parser.add_argument("--symbol", default="SPY")
+    parser.add_argument("--source", choices=["alpaca", "polygon", "sample"], default="sample")
     parser.add_argument("--n-ticks", type=int, default=10000, help="Ticks for --source sample")
     args = parser.parse_args()
 

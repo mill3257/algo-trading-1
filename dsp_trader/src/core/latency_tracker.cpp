@@ -20,12 +20,12 @@ void LatencyTracker::report() const {
     using S = Stage;
     struct Pair { S from; S to; };
     constexpr Pair pairs[] = {
-        { S::BarEmitted,    S::FilterApplied  },
+        { S::BarEmitted, S::FilterApplied  },
         { S::FilterApplied, S::KalmanUpdated  },
         { S::KalmanUpdated, S::AlphaComputed  },
         { S::AlphaComputed, S::RiskChecked    },
-        { S::RiskChecked,   S::OrderSubmitted },
-        { S::BarEmitted,    S::OrderSubmitted }, // total
+        { S::RiskChecked, S::OrderSubmitted },
+        { S::BarEmitted, S::OrderSubmitted }, // total
     };
     for (auto& p : pairs) {
         int64_t d = delta_ns(p.from, p.to);
@@ -45,14 +45,14 @@ void LatencyTracker::reset() noexcept {
 constexpr std::string_view stage_name(LatencyTracker::Stage s) {
     using S = LatencyTracker::Stage;
     switch (s) {
-        case S::TickIngested:   return "TickIngested";
-        case S::BarEmitted:     return "BarEmitted";
-        case S::FilterApplied:  return "FilterApplied";
-        case S::KalmanUpdated:  return "KalmanUpdated";
-        case S::AlphaComputed:  return "AlphaComputed";
-        case S::RiskChecked:    return "RiskChecked";
+        case S::TickIngested: return "TickIngested";
+        case S::BarEmitted: return "BarEmitted";
+        case S::FilterApplied: return "FilterApplied";
+        case S::KalmanUpdated: return "KalmanUpdated";
+        case S::AlphaComputed: return "AlphaComputed";
+        case S::RiskChecked: return "RiskChecked";
         case S::OrderSubmitted: return "OrderSubmitted";
-        default:                return "Unknown";
+        default: return "Unknown";
     }
 }
 

@@ -32,7 +32,7 @@ std::vector<Tick> CSVLoader::load_all() const {
 }
 
 Tick CSVLoader::parse_row(const std::string& line) const {
-    // Columns: timestamp_ns, price, bid, ask, size, symbol
+    // cols: timestamp_ns, price, bid, ask, size, symbol
     Tick t{};
     std::istringstream ss(line);
     std::string tok;
@@ -44,12 +44,12 @@ Tick CSVLoader::parse_row(const std::string& line) const {
         if (b != std::string::npos) tok = tok.substr(b, e - b + 1);
 
         switch (col) {
-            case 0: t.ts_ns = std::stoll(tok);                        break;
-            case 1: t.price = std::stod(tok);                         break;
-            case 2: t.bid   = std::stod(tok);                         break;
-            case 3: t.ask   = std::stod(tok);                         break;
-            case 4: t.size  = std::stod(tok);                         break;
-            case 5: std::strncpy(t.symbol, tok.c_str(), 7);           break;
+            case 0: t.ts_ns = std::stoll(tok); break;
+            case 1: t.price = std::stod(tok); break;
+            case 2: t.bid = std::stod(tok); break;
+            case 3: t.ask = std::stod(tok); break;
+            case 4: t.size = std::stod(tok); break;
+            case 5: std::strncpy(t.symbol, tok.c_str(), 7); break;
             default: break;
         }
         ++col;

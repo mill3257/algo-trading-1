@@ -17,15 +17,14 @@ void OHLCVAggregator::on_tick(const Tick& tick) {
 
     if (current_.tick_count == 0) current_.open = tick.price;
     current_.high = std::max(current_.high, tick.price);
-    current_.low  = std::min(current_.low,  tick.price);
+    current_.low = std::min(current_.low,  tick.price);
     current_.close = tick.price;
 
     // Incremental VWAP: vwap_new = (vwap_old * vol_old + price * size) / vol_new
-    double prev_vol   = current_.volume;
-    current_.volume  += tick.size;
+    double prev_vol = current_.volume;
+    current_.volume += tick.size;
     if (current_.volume > 0.0)
-        current_.vwap = (current_.vwap * prev_vol + tick.price * tick.size)
-                      / current_.volume;
+        current_.vwap = (current_.vwap * prev_vol + tick.price * tick.size) / current_.volume;
 
     current_.ts_close_ns = tick.ts_ns;
     ++current_.tick_count;
@@ -36,11 +35,11 @@ void OHLCVAggregator::flush() {
 }
 
 void OHLCVAggregator::reset_bar(Timestamp ts) {
-    current_          = OHLCVBar{};
+    current_ = OHLCVBar{};
     current_.ts_open_ns = ts;
-    current_.high     = -1e18;
-    current_.low      =  1e18;
-    bar_open_         = true;
+    current_.high = -1e18;
+    current_.low = 1e18;
+    bar_open_ = true;
 }
 
 void OHLCVAggregator::emit_bar() {

@@ -22,7 +22,7 @@ uint64_t ParamChannel::last_seq() const {
     return bufs_[active_.load(std::memory_order_acquire)].seq;
 }
 
-// ── ZMQParamSubscriber ────────────────────────────────────────────────────────
+// ZMQ param subscriber
 
 ZMQParamSubscriber::ZMQParamSubscriber(ParamChannel& ch, const char* ep)
     : channel_(ch), endpoint_(ep) {}

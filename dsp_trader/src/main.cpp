@@ -16,7 +16,7 @@
 //   OHLCVBar --> AlphaGenerator (DSP pipeline inside) --> RegimeDetector
 //            --> RiskManager --> PaperTrader --> fill recorded in BacktestHarness
 //
-// Latency is measured end-to-end across the pipeline stages.
+// Latency is measured end-to-end across the pipeline stages
 // ─────────────────────────────────────────────────────────────────────────────
 
 int main(int argc, char* argv[]) {
@@ -81,11 +81,11 @@ int main(int argc, char* argv[]) {
         if (sig.signal_changed && decision.approved) {
             dsp_trader::execution::Order order{};
             std::strncpy(order.symbol, "SPY", 7);
-            order.type        = dsp_trader::execution::OType::Market;
-            order.side        = (sig.position > 0)
+            order.type = dsp_trader::execution::OType::Market;
+            order.side = (sig.position > 0)
                               ? dsp_trader::execution::Side::Buy
                               : dsp_trader::execution::Side::Sell;
-            order.qty         = decision.approved_qty;
+            order.qty = decision.approved_qty;
             order.limit_price = bar.close;
 
             trader.submit(order);
@@ -95,14 +95,14 @@ int main(int argc, char* argv[]) {
         if (bt_cfg.verbose) latency.report();
     });
 
-    // ── Run ───────────────────────────────────────────────────────────────
+    // run
     std::printf("=== DSP Trader Backtest — %s ===\n\n", csv_path);
     auto result = harness.run();
 
     std::printf("\n=== Results ===\n");
     std::printf("  Total Return : %.2f%%\n", result.total_return * 100.0);
     std::printf("  Max Drawdown : %.2f%%\n", result.max_drawdown  * 100.0);
-    std::printf("  Total Trades : %d\n",     result.total_trades);
+    std::printf("  Total Trades : %d\n", result.total_trades);
 
     return 0;
 }

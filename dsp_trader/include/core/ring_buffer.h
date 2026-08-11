@@ -41,14 +41,14 @@ public:
     std::size_t size() const noexcept {
         const auto h = head_.load(std::memory_order_acquire);
         const auto t = tail_.load(std::memory_order_acquire);
-        return (h - t + Capacity) & kMask;
+        return h - t;
     }
     static constexpr std::size_t capacity() { return Capacity; }
 
 private:
     alignas(64) std::atomic<std::size_t> head_{0};
     alignas(64) std::atomic<std::size_t> tail_{0};
-    alignas(64) std::array<T, Capacity>  data_{};
+    alignas(64) std::array<T, Capacity> data_{};
 };
 
 } 

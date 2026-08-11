@@ -1,22 +1,18 @@
 """
 Kalman Q/R Estimator via EM Algorithm
 Estimates process noise (Q) and measurement noise (R) from observed price data
-without requiring labeled data — purely unsupervised.
+without requiring labeled data, completely unsupervised learning
 
-Reference: Shumway & Stoffer, "An Approach to Time Series Smoothing and
-           Forecasting Using the EM Algorithm" (1982)
 
-TODO (you implement):
+TODO:
     KalmanEMEstimator.fit(prices, n_iter=20):
-        E-step: run Kalman smoother (forward + backward pass) to get
-                expected state estimates and covariances
+        E-step: run Kalman smoother (forward + backward pass) to get expected state estimates and covariances
         M-step: update Q and R as closed-form MLE from smoother output
+        Repeat until convergence (change in log-likelihood < tolerance).
 
-        Repeat until convergence (change in log-likelihood < tol).
-
-    Key insight: Q and R appear in closed-form M-step updates:
+     Q and R appear in closed-form M-step updates:
         R_new = (1/T) * sum((z_t - H * x_hat_t)^2 + H * P_t * H^T)
-        Q_new = (1/T) * sum(cov of state innovation)  [see reference]
+        Q_new = (1/T) * sum(cov of state innovation)
 """
 
 
@@ -25,9 +21,9 @@ class KalmanEMEstimator:
     TODO: implement fit() using the EM algorithm for state-space models.
 
     Parameters learned:
-        Q_price    — process noise variance for price state
-        Q_velocity — process noise variance for velocity state
-        R          — measurement noise variance
+        Q_price: process noise variance for price state
+        Q_velocity: process noise variance for velocity state
+        R: measurement noise variance
 
     Returns a dict compatible with dsp::KalmanFilter::Params.
     """
@@ -52,9 +48,9 @@ class KalmanEMEstimator:
     def _e_step(self, prices):
         """
         TODO: Kalman smoother (RTS smoother).
-        Forward pass:  predict/update to get filtered estimates x_hat, P
+        Forward pass: predict/update to get filtered estimates x_hat, P
         Backward pass: RTS smoother to get smoothed estimates x_smooth, P_smooth
-        Returns smoothed means, covariances, and cross-covariances.
+        Returns smoothed means, covariances, and cross-covariances
         """
         raise NotImplementedError
 
@@ -67,8 +63,8 @@ class KalmanEMEstimator:
 
     def to_params(self) -> dict:
         return {
-            "Q_price":    self.Q_price,
+            "Q_price": self.Q_price,
             "Q_velocity": self.Q_velocity,
-            "R":          self.R,
-            "dt":         self.dt,
+            "R": self.R,
+            "dt": self.dt,
         }
