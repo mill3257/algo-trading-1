@@ -31,9 +31,9 @@ class BiquadFilter {
 public:
     explicit BiquadFilter(const BiquadCoeffs& c);
 
-    double process(double x) noexcept;    // TODO
+    double process(double x) noexcept; // TODO
     void initialize(double x0) noexcept; // TODO
-    void reset() noexcept;              // TODO
+    void reset() noexcept; // TODO
 
     void set_coeffs(const BiquadCoeffs& c);
     const BiquadCoeffs& coeffs() const { return c_; }

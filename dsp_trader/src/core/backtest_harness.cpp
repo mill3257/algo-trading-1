@@ -39,7 +39,7 @@ BacktestResult BacktestHarness::run() {
         std::printf("Bars processed: %zu | Trades: %d\n",
                     equity_curve_.size(), trade_count_);
 
-    // ── Compute results ───────────────────────────────────────────────────
+    // compute results
     BacktestResult r{};
     r.total_return = (cash_ - cfg_.initial_capital) / cfg_.initial_capital;
     r.max_drawdown = max_drawdown_;
@@ -53,16 +53,16 @@ BacktestResult BacktestHarness::run() {
             rets.push_back((equity_curve_[i] - equity_curve_[i-1]) / equity_curve_[i-1]);
 
         double mean = std::accumulate(rets.begin(), rets.end(), 0.0) / rets.size();
-        double var  = 0.0;
+        double var = 0.0;
         for (double x : rets) var += (x - mean) * (x - mean);
-        var /= rets.size();
+        var /= (rets.size() - 1);
         double sigma = std::sqrt(var);
 
         // Annualize assuming 252 trading days × bars_per_day
         // Placeholder: assume 1-minute bars, 390 bars/day
         double ann_factor = std::sqrt(252.0 * 390.0);
         r.annualized_vol = sigma * ann_factor;
-        r.sharpe_ratio   = (sigma > 0) ? (mean / sigma) * ann_factor : 0.0;
+        r.sharpe_ratio = (sigma > 0) ? (mean / sigma) * ann_factor : 0.0;
     }
 
     r.avg_pipeline_ns = 0.0; // populated by LatencyTracker in main
@@ -72,10 +72,10 @@ BacktestResult BacktestHarness::run() {
 
 void BacktestHarness::record_fill(double price, double qty, bool is_buy) {
     if (is_buy) {
-        cash_     -= price * qty;
+        cash_ -= price * qty;
         position_ += qty;
     } else {
-        cash_     += price * qty;
+        cash_ += price * qty;
         position_ -= qty;
     }
     ++trade_count_;
