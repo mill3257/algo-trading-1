@@ -1,2 +1,3 @@
 #include "core/ring_buffer.h"
-// TODO: implement
+// all ring buffer methods are included in hpp file
+// this is only here so the CMakeLists.txt build format is consistent

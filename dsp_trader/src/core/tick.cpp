@@ -1,2 +1,3 @@
 #include "core/tick.h"
-// TODO: implement
+// methods are implemented in tick.hpp
+//here for makefile build consistency

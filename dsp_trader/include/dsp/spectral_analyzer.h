@@ -55,7 +55,7 @@ private:
     std::vector<double> buffer_; // circular price window (TODO: replace with proper ring)
     std::vector<double> hann_win_; // precomputed Hanning weights
 
-    void compute_dft(std::vector<double>& psd_out) const; // TODO: implement, swap for FFTW later
+    void compute_fft(std::vector<double>& psd_out) const; // TODO: implement, swap for FFTW later
     double shannon_entropy(const std::vector<double>& psd) const; // TODO
 };
 

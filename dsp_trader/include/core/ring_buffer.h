@@ -28,11 +28,23 @@ class RingBuffer {
 public:
     RingBuffer() = default;
 
-    // TODO: implement, producer thread only
-    bool push(const T& item) noexcept;
+    bool push(const T& item) noexcept {
+        const std::size_t h = head_.load(std::memory_order_relaxed);
+        if (h - tail_.load(std::memory_order_acquire) == Capacity)
+            return false;
+        data_[h & kMask] = item;
+        head_.store(h + 1, std::memory_order_release);
+        return true;
+    }
 
-    // TODO: implement, consumer thread only
-    std::optional<T> pop() noexcept;
+    std::optional<T> pop() noexcept {
+        const std::size_t t = tail_.load(std::memory_order_relaxed);
+        if (t == head_.load(std::memory_order_acquire))
+            return std::nullopt; //empty
+        T item = data_[t & kMask];
+        tail_.store(t + 1, std::memory_order_release);
+        return item;
+    }
 
     bool empty() const noexcept {
         return tail_.load(std::memory_order_acquire) ==
